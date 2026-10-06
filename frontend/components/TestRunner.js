@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { LETTERS } from "../lib/constants";
 import {
+  emptyResults,
   getTestProgress,
   loadResults,
   saveResults,
@@ -13,11 +14,15 @@ import {
 import { HandCircle, HandTick } from "./HandMarks";
 
 export default function TestRunner({ test }) {
-  const storage = useMemo(() => loadResults(), [test.id]);
+  const [storage, setStorage] = useState(emptyResults())
   const stored = storage[String(test.id)] || { selected: {}, checked: {} };
   const [selected, setSelected] = useState(stored.selected || {});
   const [checked, setChecked] = useState(stored.checked || {});
   const [hint, setHint] = useState("");
+
+  useEffect(() => {
+    setStorage(loadResults())
+  }, [test.id])
 
   const progress = getTestProgress(
     { [String(test.id)]: { checked } },
