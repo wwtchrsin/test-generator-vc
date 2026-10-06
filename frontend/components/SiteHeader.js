@@ -8,7 +8,6 @@ export default function SiteHeader({ extra }) {
       </Link>
       <nav>
         {extra}
-        <Link href="/admin">Админ</Link>
       </nav>
     </header>
   );

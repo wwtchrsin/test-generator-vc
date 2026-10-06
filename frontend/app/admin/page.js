@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { notFound } from "next/navigation"
 import { fetchTests } from "../../lib/api";
 import AdminPanel from "../../components/AdminPanel";
 import SiteHeader from "../../components/SiteHeader";
@@ -6,6 +7,10 @@ import SiteHeader from "../../components/SiteHeader";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
+  if ( process.env.NODE_ENV === "production" ) {
+    notFound();
+  }
+
   let tests = [];
   let error = "";
   try {

@@ -53,49 +53,53 @@ app.get("/api/tests/:id", async (req, res) => {
   }
 });
 
-app.post("/api/tests", async (req, res) => {
-  const error = validateTestPayload(req.body);
-  if (error) {
-    res.status(400).json({ error });
-    return;
-  }
+if ( process.env.NODE_ENV === "production" ) {
 
-  const { chapter, title, level, topic, tasks } = req.body;
-  try {
-    const { rows } = await pool.query(
-      `INSERT INTO tests (chapter, title, level, topic, tasks)
-       VALUES ($1, $2, $3, $4, $5::jsonb)
-       RETURNING *`,
-      [
-        chapter.trim(),
-        title.trim(),
-        level,
-        topic && String(topic).trim() ? String(topic).trim() : null,
-        JSON.stringify(tasks),
-      ]
-    );
-    res.status(201).json(rowToTest(rows[0]));
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create test" });
-  }
-});
-
-app.delete("/api/tests/:id", async (req, res) => {
-  try {
-    const { rowCount } = await pool.query("DELETE FROM tests WHERE id = $1", [
-      req.params.id,
-    ]);
-    if (!rowCount) {
-      res.status(404).json({ error: "Test not found" });
+  app.post("/api/tests", async (req, res) => {
+    const error = validateTestPayload(req.body);
+    if (error) {
+      res.status(400).json({ error });
       return;
     }
-    res.status(204).end();
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to delete test" });
-  }
-});
+
+    const { chapter, title, level, topic, tasks } = req.body;
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO tests (chapter, title, level, topic, tasks)
+        VALUES ($1, $2, $3, $4, $5::jsonb)
+        RETURNING *`,
+        [
+          chapter.trim(),
+          title.trim(),
+          level,
+          topic && String(topic).trim() ? String(topic).trim() : null,
+          JSON.stringify(tasks),
+        ]
+      );
+      res.status(201).json(rowToTest(rows[0]));
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to create test" });
+    }
+  });
+
+  app.delete("/api/tests/:id", async (req, res) => {
+    try {
+      const { rowCount } = await pool.query("DELETE FROM tests WHERE id = $1", [
+        req.params.id,
+      ]);
+      if (!rowCount) {
+        res.status(404).json({ error: "Test not found" });
+        return;
+      }
+      res.status(204).end();
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to delete test" });
+    }
+  });
+
+}
 
 async function seedIfEmpty() {
   const { rows } = await pool.query("SELECT COUNT(*)::int AS count FROM tests");
