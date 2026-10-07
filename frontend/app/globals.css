@@ -310,7 +310,7 @@ textarea {
 .task {
   display: flex;
   flex-direction: row;
-  margin: 0 0 20px;
+  margin: 0 0 30px 10px;
 }
 
 .task-number {
@@ -390,14 +390,13 @@ textarea {
 
 @media (max-width: 576px) {
   .paper-sheet {
-    padding: 28px 18px 40px;
+    padding: 4px 4px 40px;
     box-shadow: none;
     border-width: 0px;
   }
   .paper-wrap {
     background: var(--paper);
     min-height: 100vh;
-    padding: 96px 0px 64px;
   }
   .sticky-bar .stats-entry {
     display: none;

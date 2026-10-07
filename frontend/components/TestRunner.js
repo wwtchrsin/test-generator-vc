@@ -10,7 +10,7 @@ import {
   setCheckedAnswers,
   setSelectedAnswers,
 } from "../lib/storage";
-import { HandCircle, HandTick } from "./HandMarks";
+import { HandCircle, HandTick, HandCross } from "./HandMarks";
 
 export default function TestRunner({ test }) {
   const [selected, setSelected] = useState({});
@@ -91,7 +91,7 @@ export default function TestRunner({ test }) {
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           {hint ? <span className="error">{hint}</span> : null}
           <button type="button" className="solid-btn" onClick={checkAnswers}>
-            Проверить ответы
+            Проверить
           </button>
         </div>
       </div>
@@ -125,6 +125,7 @@ export default function TestRunner({ test }) {
                       const showGray = isChosen;
                       const showRed = Boolean(result) && !result.isCorrect && optionIndex === result.correct;
                       const showTick = Boolean(result) && result.isCorrect && optionIndex === result.selected;
+                      const showCross = Boolean(result) && !result.isCorrect && optionIndex === result.selected;
                       return (
                         <li key={optionIndex}>
                           <button
@@ -139,7 +140,9 @@ export default function TestRunner({ test }) {
                               {showRed ? <HandCircle color="#c1121f" /> : null}
                             </span>
                             <span className="option-text">{option}</span>
-                            <span className="tick-wrap">{showTick ? <HandTick /> : null}</span>
+                            <span className="tick-wrap">
+                              {(showTick || showCross) && (showTick ? <HandTick /> : <HandCross />)}
+                            </span>
                           </button>
                         </li>
                       );

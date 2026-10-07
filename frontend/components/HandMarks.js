@@ -34,3 +34,33 @@ export function HandTick() {
     </svg>
   );
 }
+
+export function HandCross() {
+  return (
+    <svg className="hand-mark" viewBox="0 0 36 36" aria-hidden="true">
+      <path
+        d="M6.8 18.2c.2-7.1 9.4-12.6 16.7-9.1 5.8 2.7 7.6 11.2 3.6 16.1-4.2 5.2-14.8 6.2-18.7 1-1.4-1.9-1.6-4.6-1.6-8"
+        fill="none"
+        stroke="#c1121f"
+        strokeWidth="1.55"
+        strokeLinecap="round"
+      />
+      <path
+        d="M12.5 12.8c2.1 2.4 4.5 5.1 6.2 7.8 1.8 2.8 3.1 4.6 3.8 6.2"
+        fill="none"
+        stroke="#c1121f"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M23.8 12.3c-2.3 2.6-4.9 5.3-7.1 8.1-1.9 2.4-3.2 4.2-4.4 6.3"
+        fill="none"
+        stroke="#c1121f"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
