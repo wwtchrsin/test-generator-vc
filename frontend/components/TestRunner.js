@@ -69,12 +69,24 @@ export default function TestRunner({ test }) {
   return (
     <>
       <div className="sticky-bar">
-        <div className="stats">
-          <Link href="/">К списку</Link>
-          <span>
-            Выполнено: {progress.completed} / {progress.total}
+        <div className="sticky-bar-main">
+          <Link href="/">
+            <button type="button" className="solid-btn">
+              К списку
+            </button>
+          </Link>
+          <span className="stats-entry">
+            Выполнено: <span className="value">{progress.completed} / {progress.total}</span>
           </span>
-          <span>Верных: {progress.percent}%</span>
+          <span className="stats-entry stats-entry-correct">
+            Верных: <span className="value">{progress.percent}%</span>
+          </span>
+          <span className="stats-entry-compact">
+            <span className="value">{progress.completed} / {progress.total}</span>
+          </span>
+          <span className="stats-entry-compact stats-entry-correct">
+            <span className="value">{progress.percent}%</span>
+          </span>
         </div>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           {hint ? <span className="error">{hint}</span> : null}
@@ -86,9 +98,17 @@ export default function TestRunner({ test }) {
       <div className="paper-wrap">
         <article className="paper-sheet">
           <header className="paper-heading">
-            <p className="chapter">{test.chapter}</p>
-            <h1>{test.title}</h1>
-            {test.topic ? <p className="topic">{test.topic}</p> : null}
+            <div className="title-bar">
+              <div className="test-level">{test.level}</div>
+              <div className="test-title">{test.title}</div>
+            </div>
+            <div className="title-bar-compact">
+              <div className="test-level">{test.level}</div>
+              <div className="test-title">{test.title}</div>
+            </div>
+            {test.topic && (
+              <div className="test-topic">{test.topic}</div>
+            )}
           </header>
           {test.tasks.map((task, taskIndex) => {
             const key = String(taskIndex);
@@ -96,35 +116,36 @@ export default function TestRunner({ test }) {
             const chosen = result ? result.selected : selected[key];
             return (
               <section className="task" key={taskIndex}>
-                <p className="task-text">
-                  {taskIndex + 1}. {task.task}
-                </p>
-                <ul className="options">
-                  {task.options.map((option, optionIndex) => {
-                    const isChosen = chosen === optionIndex;
-                    const showGray = isChosen;
-                    const showRed = Boolean(result) && !result.isCorrect && optionIndex === result.correct;
-                    const showTick = Boolean(result) && result.isCorrect && optionIndex === result.selected;
-                    return (
-                      <li key={optionIndex}>
-                        <button
-                          type="button"
-                          className="option"
-                          disabled={Boolean(result)}
-                          onClick={() => choose(taskIndex, optionIndex)}
-                        >
-                          <span className="letter-wrap">
-                            <span className="letter">{LETTERS[optionIndex]}</span>
-                            {showGray && !showRed ? <HandCircle color="#3a3a3a" /> : null}
-                            {showRed ? <HandCircle color="#c1121f" /> : null}
-                          </span>
-                          <span className="option-text">{option}</span>
-                          <span className="tick-wrap">{showTick ? <HandTick /> : null}</span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <div className="task-number">{taskIndex + 1}.</div>
+                <div className="task-body">
+                  <div className="task-text">{task.task}</div>
+                  <ul className="options">
+                    {task.options.map((option, optionIndex) => {
+                      const isChosen = chosen === optionIndex;
+                      const showGray = isChosen;
+                      const showRed = Boolean(result) && !result.isCorrect && optionIndex === result.correct;
+                      const showTick = Boolean(result) && result.isCorrect && optionIndex === result.selected;
+                      return (
+                        <li key={optionIndex}>
+                          <button
+                            type="button"
+                            className="option"
+                            disabled={Boolean(result)}
+                            onClick={() => choose(taskIndex, optionIndex)}
+                          >
+                            <span className="letter-wrap">
+                              <span className="letter">{LETTERS[optionIndex]}</span>
+                              {showGray && !showRed ? <HandCircle color="#3a3a3a" /> : null}
+                              {showRed ? <HandCircle color="#c1121f" /> : null}
+                            </span>
+                            <span className="option-text">{option}</span>
+                            <span className="tick-wrap">{showTick ? <HandTick /> : null}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               </section>
             );
           })}

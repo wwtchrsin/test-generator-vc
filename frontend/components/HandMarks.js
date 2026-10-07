@@ -19,14 +19,14 @@ export function HandTick() {
       <path
         d="M6.8 18.2c.2-7.1 9.4-12.6 16.7-9.1 5.8 2.7 7.6 11.2 3.6 16.1-4.2 5.2-14.8 6.2-18.7 1-1.4-1.9-1.6-4.6-1.6-8"
         fill="none"
-        stroke="#111"
+        stroke="#c1121f"
         strokeWidth="1.55"
         strokeLinecap="round"
       />
       <path
         d="M11.2 18.4c1.8 1.8 3.6 4.4 5.1 6.3 4.4-6.6 8.1-10.7 12.4-16.2"
         fill="none"
-        stroke="#111"
+        stroke="#c1121f"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
