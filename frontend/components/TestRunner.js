@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { LETTERS } from "../lib/constants";
 import {
-  emptyResults,
   getTestProgress,
   loadResults,
   saveResults,
@@ -14,14 +13,15 @@ import {
 import { HandCircle, HandTick } from "./HandMarks";
 
 export default function TestRunner({ test }) {
-  const [storage, setStorage] = useState(emptyResults())
-  const stored = storage[String(test.id)] || { selected: {}, checked: {} };
-  const [selected, setSelected] = useState(stored.selected || {});
-  const [checked, setChecked] = useState(stored.checked || {});
+  const [selected, setSelected] = useState({});
+  const [checked, setChecked] = useState({});
   const [hint, setHint] = useState("");
 
   useEffect(() => {
-    setStorage(loadResults())
+    let storage = loadResults();
+    let testResult = storage[String(test.id)] || { selected: {}, checked: {} };
+    setSelected(testResult.selected)
+    setChecked(testResult.checked)
   }, [test.id])
 
   const progress = getTestProgress(
