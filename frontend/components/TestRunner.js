@@ -16,12 +16,14 @@ export default function TestRunner({ test }) {
   const [selected, setSelected] = useState({});
   const [checked, setChecked] = useState({});
   const [hint, setHint] = useState("");
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     let storage = loadResults();
     let testResult = storage[String(test.id)] || { selected: {}, checked: {} };
-    setSelected(testResult.selected)
-    setChecked(testResult.checked)
+    setSelected(testResult.selected);
+    setChecked(testResult.checked);
+    setInitialized(true);
   }, [test.id])
 
   const progress = getTestProgress(
@@ -75,18 +77,22 @@ export default function TestRunner({ test }) {
               К списку
             </button>
           </Link>
-          <span className="stats-entry">
-            Выполнено: <span className="value">{progress.completed} / {progress.total}</span>
-          </span>
-          <span className="stats-entry stats-entry-correct">
-            Верных: <span className="value">{progress.percent}%</span>
-          </span>
-          <span className="stats-entry-compact">
-            <span className="value">{progress.completed} / {progress.total}</span>
-          </span>
-          <span className="stats-entry-compact stats-entry-correct">
-            <span className="value">{progress.percent}%</span>
-          </span>
+          {initialized && 
+            <>
+              <span className="stats-entry">
+                Выполнено: <span className="value">{progress.completed} / {progress.total}</span>
+              </span>
+              <span className="stats-entry stats-entry-correct">
+                Верных: <span className="value">{progress.percent}%</span>
+              </span>
+              <span className="stats-entry-compact">
+                <span className="value">{progress.completed} / {progress.total}</span>
+              </span>
+              <span className="stats-entry-compact stats-entry-correct">
+                <span className="value">{progress.percent}%</span>
+              </span>
+            </>
+          }
         </div>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
           {hint ? <span className="error">{hint}</span> : null}
