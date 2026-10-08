@@ -9,6 +9,7 @@ import {
   saveResults,
   setCheckedAnswers,
   setSelectedAnswers,
+  resetAnswers,
 } from "../lib/storage";
 import { HandCircle, HandTick, HandCross } from "./HandMarks";
 
@@ -17,6 +18,7 @@ export default function TestRunner({ test }) {
   const [checked, setChecked] = useState({});
   const [hint, setHint] = useState("");
   const [initialized, setInitialized] = useState(false);
+  const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
   useEffect(() => {
     let storage = loadResults();
@@ -43,6 +45,7 @@ export default function TestRunner({ test }) {
     setSelected(next);
     persistSelected(next);
     setHint("");
+    setResetDialogOpen(false);
   }
 
   function checkAnswers() {
@@ -57,6 +60,7 @@ export default function TestRunner({ test }) {
         isCorrect: selected[key] === task.correct,
       };
     });
+    setResetDialogOpen(false);
     if (Object.keys(updates).length === 0) {
       setHint("Выберите хотя бы один ответ, чтобы проверить.");
       return;
@@ -66,6 +70,15 @@ export default function TestRunner({ test }) {
     const all = loadResults();
     saveResults(setCheckedAnswers(all, test.id, updates));
     setHint("");
+  }
+
+  function resetResult () {
+    const all = loadResults();
+    setSelected({});
+    setChecked({});
+    saveResults(resetAnswers(all, test.id));
+    setHint("");
+    setResetDialogOpen(false);
   }
 
   return (
@@ -158,6 +171,28 @@ export default function TestRunner({ test }) {
               </section>
             );
           })}
+          <div class="test-footer">
+            {!resetDialogOpen && (
+              <button type="button" className="solid-btn reset-button" onClick={() => setResetDialogOpen(true)}>
+                Сбросить
+              </button>
+            )}
+            {resetDialogOpen && (
+              <>
+                <div className="dialog-text">
+                  Вы уверены что хотите сбросить ответы и начать тест заново?
+                </div>
+                <div className="dialog-buttons">
+                  <button type="button" className="solid-btn" onClick={() => resetResult()}>
+                    Да
+                  </button>
+                  <button type="button" className="solid-btn" onClick={() => setResetDialogOpen(false)}>
+                    Отмена
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </article>
       </div>
     </>

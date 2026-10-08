@@ -17,6 +17,7 @@ export function loadResults() {
 }
 
 export function saveResults(results) {
+  if (typeof window === "undefined") return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(results));
 }
 
@@ -56,5 +57,13 @@ export function setSelectedAnswers(results, testId, selected) {
       checked: { ...(current.checked || {}) },
       selected,
     },
+  };
+}
+
+export function resetAnswers(results, testId) {
+  const key = String(testId);
+  return {
+    ...results,
+    [key]: { checked: {}, selected: {} },
   };
 }

@@ -388,6 +388,18 @@ textarea {
   color: var(--muted);
 }
 
+.test-footer {
+  margin-top: 40px;
+  height: 60px;
+}
+
+.test-footer .dialog-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 8px;
+}
+
 @media (max-width: 576px) {
   .paper-sheet {
     padding: 4px 4px 40px;
