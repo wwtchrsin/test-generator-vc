@@ -5,6 +5,7 @@ services:
       POSTGRES_USER: egt
       POSTGRES_PASSWORD: egt
       POSTGRES_DB: egt
+    restart: unless-stopped
     ports:
       - "5433:5432"
     volumes:
