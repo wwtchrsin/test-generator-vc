@@ -364,6 +364,13 @@ textarea {
   font-size: 15px;
 }
 
+.letter::after {
+  content: ")";
+  position: absolute;
+  left: 110%;
+  top: -1px;
+}
+
 .hand-mark {
   position: absolute;
   inset: -3px;
