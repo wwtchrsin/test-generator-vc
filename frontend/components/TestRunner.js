@@ -42,6 +42,9 @@ export default function TestRunner({ test }) {
   function choose(taskIndex, optionIndex) {
     if (checked[String(taskIndex)]) return;
     const next = { ...selected, [String(taskIndex)]: optionIndex };
+    if (selected[String(taskIndex)]) {
+      delete next[String(taskIndex)];
+    }
     setSelected(next);
     persistSelected(next);
     setHint("");
@@ -171,7 +174,7 @@ export default function TestRunner({ test }) {
               </section>
             );
           })}
-          <div class="test-footer">
+          <div className="test-footer">
             {!resetDialogOpen && (
               <button type="button" className="solid-btn reset-button" onClick={() => setResetDialogOpen(true)}>
                 Сбросить
