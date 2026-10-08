@@ -13,6 +13,7 @@ const EXAMPLE = `[
 ]`;
 
 export default function AdminPanel({ initialTests }) {
+  const [adminToken, setAdminToken] = useState("");
   const [tests, setTests] = useState(initialTests);
   const [chapter, setChapter] = useState("");
   const [title, setTitle] = useState("");
@@ -34,7 +35,7 @@ export default function AdminPanel({ initialTests }) {
       return;
     }
     try {
-      const created = await createTest({
+      const created = await createTest(adminToken, {
         chapter,
         title,
         level,
@@ -56,7 +57,7 @@ export default function AdminPanel({ initialTests }) {
     setError("");
     setOk("");
     try {
-      await deleteTest(id);
+      await deleteTest(adminToken, id);
       setTests((list) => list.filter((item) => item.id !== id));
       setOk("Тест удалён");
     } catch (err) {
@@ -66,6 +67,17 @@ export default function AdminPanel({ initialTests }) {
 
   return (
     <div className="admin-layout">
+      <div className="admin-header">
+        <div className="field">
+          <label htmlFor="admin-token">Токен Администратора:</label>
+          <input id="admin-token" value={adminToken} onChange={(e) => setAdminToken(e.target.value)} />
+        </div>
+        <p className="result">
+          {error ? <span className="error">Результат: {error}</span> : null}
+          {ok && !error ? <span className="ok">Результат: {ok}</span> : null}
+          {!ok && !error ? <span>Результат:</span> : null}
+        </p>
+      </div>
       <form className="admin-form" onSubmit={onSubmit}>
         <h2>Добавить тест</h2>
         <div className="field">
@@ -94,8 +106,6 @@ export default function AdminPanel({ initialTests }) {
           <label htmlFor="tasks">Задания (JSON)</label>
           <textarea id="tasks" value={tasksJson} onChange={(e) => setTasksJson(e.target.value)} />
         </div>
-        {error ? <p className="error">{error}</p> : null}
-        {ok ? <p className="ok">{ok}</p> : null}
         <button type="submit" className="solid-btn">
           Сохранить тест
         </button>

@@ -11,6 +11,21 @@ const port = Number(process.env.PORT || 4000);
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
 
+app.use((req, _res, next) => {
+  const auth = req.header("Authorization");
+  if ( typeof auth !== "string" ) {
+    next();
+    return;
+  }
+  const token = auth.split(" ")[1]
+  if ( typeof token !== "string" ) {
+    next();
+    return;
+  }
+  req.token = token;
+  next();
+});
+
 app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
@@ -53,9 +68,14 @@ app.get("/api/tests/:id", async (req, res) => {
   }
 });
 
-if ( process.env.NODE_ENV === "production" ) {
+if ( process.env.NODE_ENV !== "production" ) {
 
   app.post("/api/tests", async (req, res) => {
+    if ( req.token !== process.env.ADMIN_TOKEN ) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+
     const error = validateTestPayload(req.body);
     if (error) {
       res.status(400).json({ error });
@@ -84,6 +104,11 @@ if ( process.env.NODE_ENV === "production" ) {
   });
 
   app.delete("/api/tests/:id", async (req, res) => {
+    if ( req.token !== process.env.ADMIN_TOKEN ) {
+      res.status(401).json({ error: "unauthorized" });
+      return;
+    }
+
     try {
       const { rowCount } = await pool.query("DELETE FROM tests WHERE id = $1", [
         req.params.id,

@@ -157,9 +157,19 @@ textarea {
   margin-top: 6px;
 }
 
-.progress-line {
+.progress-line,
+.progress-line-inactive {
   margin-top: 10px;
   font-size: 13px;
+}
+
+.progress-line-inactive {
+  visibility: hidden;
+}
+
+.admin-header {
+  margin-top: 40px;
+  font-weight: bold;
 }
 
 .admin-layout {
@@ -180,14 +190,16 @@ textarea {
   font-size: 13px;
 }
 
+.admin-header .result {
+  font-size: 16px;
+}
+
 .error {
   color: #9b1c1c;
-  font-size: 14px;
 }
 
 .ok {
   color: #1a5c1a;
-  font-size: 14px;
 }
 
 .admin-item {

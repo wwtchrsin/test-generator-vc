@@ -17,10 +17,13 @@ export async function fetchTest(id) {
   return res.json();
 }
 
-export async function createTest(payload) {
+export async function createTest(adminToken, payload) {
   const res = await fetch(`${API_URL}/api/tests`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Authorization": `Bearer ${adminToken}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(payload),
   });
   const data = await res.json().catch(() => ({}));
@@ -30,8 +33,13 @@ export async function createTest(payload) {
   return data;
 }
 
-export async function deleteTest(id) {
-  const res = await fetch(`${API_URL}/api/tests/${id}`, { method: "DELETE" });
+export async function deleteTest(adminToken, id) {
+  const res = await fetch(`${API_URL}/api/tests/${id}`, { 
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${adminToken}`,
+    },
+  });
   if (!res.ok && res.status !== 204) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.error || "Не удалось удалить тест");
