@@ -9,9 +9,15 @@ export default function TestCard({ test, results, initialized }) {
         <h2>{test.title}</h2>
         <span>{test.level}</span>
       </div>
-      <div className="meta">
+      <div className="test-chapter">
         {test.chapter}
-        {test.topic ? ` · ${test.topic}` : ""}
+      </div>
+      <div className="test-topic">
+        {test.topic && (
+          test.topic.split("\n").map((line, index) => {
+            return <div key={`test-topic-${index}`}>{line}</div>;
+          })
+        )}
       </div>
       <div className={initialized ? "progress-line" : "progress-line-inactive"}>
         Выполнено {progress.completed} из {progress.total}

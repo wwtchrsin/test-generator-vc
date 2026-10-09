@@ -130,9 +130,11 @@ export default function TestRunner({ test }) {
             </div>
             {test.topic && (
               <div className="test-topic">
-                {test.topic.split("\n").map((line, index) => {
-                  return <div key={`topic-line-${index}`}>{line}</div>
-                })}
+                <div className="test-topic-content">
+                  {test.topic.split("\n").map((line, index) => {
+                    return <div key={`topic-line-${index}`}>{line}</div>
+                  })}
+                </div>
               </div>
             )}
           </header>
