@@ -6,16 +6,6 @@ export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-const LEVELS = [
-  "elementary",
-  "pre-intermediate",
-  "intermediate",
-  "upper-intermediate",
-  "advanced",
-];
-
-export { LEVELS };
-
 export async function initSchema() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS tests (

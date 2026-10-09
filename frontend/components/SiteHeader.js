@@ -4,7 +4,7 @@ export default function SiteHeader({ extra }) {
   return (
     <header className="site-header">
       <Link href="/">
-        <h1>English Grammar Tests</h1>
+        <h1>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
       </Link>
       <nav>
         {extra}

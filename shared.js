@@ -5,5 +5,3 @@ export const LEVELS = [
   "upper-intermediate",
   "advanced",
 ];
-
-export const LETTERS = ["A", "B", "C", "D", "E", "F"];

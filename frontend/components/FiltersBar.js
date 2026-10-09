@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { LEVELS } from "../lib/constants";
+import { LEVELS } from "../../shared";
 import { loadResults, saveResults } from "../lib/storage";
 
 export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, onImported }) {
@@ -19,7 +19,7 @@ export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, 
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "egt-results.json";
+    a.download = "testgen-results.json";
     a.click();
     URL.revokeObjectURL(url);
   }

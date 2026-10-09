@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LEVELS } from "../lib/constants";
+import { LEVELS } from "../../shared";
 import { createTest, deleteTest } from "../lib/api";
 
 const EXAMPLE = `[

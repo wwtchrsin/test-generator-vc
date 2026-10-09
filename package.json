@@ -1,5 +1,6 @@
 {
-  "name": "egt",
+  "name": "test-generator-vc",
+  "type": "module",
   "private": true,
   "scripts": {
     "build:client": "npm run build --prefix frontend",

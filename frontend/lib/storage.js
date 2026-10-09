@@ -1,4 +1,4 @@
-export const STORAGE_KEY = "egt-results";
+export const STORAGE_KEY = "testgen-results";
 
 export function emptyResults() {
   return {};

@@ -1,4 +1,4 @@
-import { LEVELS } from "./db.js";
+import { LEVELS } from "../../shared.js";
 
 export function validateTasks(tasks) {
   if (!Array.isArray(tasks) || tasks.length === 0) {

@@ -2,14 +2,14 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: egt
-      POSTGRES_PASSWORD: egt
-      POSTGRES_DB: egt
+      POSTGRES_USER: testgen
+      POSTGRES_PASSWORD: testgen
+      POSTGRES_DB: testgen
     restart: unless-stopped
     ports:
-      - "5433:5432"
+      - "5460:5432"
     volumes:
-      - egt_pgdata:/var/lib/postgresql/data
+      - testgen_pgdata:/var/lib/postgresql/data
 
 volumes:
-  egt_pgdata:
+  testgen_pgdata:

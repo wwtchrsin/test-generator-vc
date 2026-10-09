@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { LETTERS } from "../lib/constants";
 import {
   getTestProgress,
   loadResults,
@@ -12,6 +11,8 @@ import {
   resetAnswers,
 } from "../lib/storage";
 import { HandCircle, HandTick, HandCross } from "./HandMarks";
+
+const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
 export default function TestRunner({ test }) {
   const [selected, setSelected] = useState({});
