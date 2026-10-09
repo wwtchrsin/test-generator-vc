@@ -98,11 +98,11 @@ export default function AdminPanel({ initialTests }) {
             ))}
           </select>
         </div>
-        <div className="field">
+        <div className="field test-topic">
           <label htmlFor="topic">Тема (необязательно)</label>
-          <input id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} />
+          <textarea id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} />
         </div>
-        <div className="field">
+        <div className="field tasks-json">
           <label htmlFor="tasks">Задания (JSON)</label>
           <textarea id="tasks" value={tasksJson} onChange={(e) => setTasksJson(e.target.value)} />
         </div>
@@ -121,7 +121,10 @@ export default function AdminPanel({ initialTests }) {
                 <strong>{test.title}</strong>
                 <div className="meta">
                   {test.chapter} · {test.level}
-                  {test.topic ? ` · ${test.topic}` : ""}
+                  {test.topic && (
+                    " · \"" + test.topic.slice(0, 36) +
+                    (test.topic.length > 36 ? "..." : "") + "\""
+                  )}
                 </div>
               </div>
               <button type="button" className="ghost-btn" onClick={() => onDelete(test.id)}>

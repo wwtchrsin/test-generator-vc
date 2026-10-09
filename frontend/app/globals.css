@@ -185,13 +185,22 @@ textarea {
 }
 
 .admin-form textarea {
+  resize: none;
+}
+
+.admin-form .test-topic textarea {
+  min-height: 80px;
+  font-size: 13px;
+}
+
+.admin-form .tasks-json textarea {
   min-height: 220px;
   font-family: "Consolas", "Courier New", monospace;
   font-size: 13px;
 }
 
 .admin-header .result {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .error {
@@ -311,6 +320,7 @@ textarea {
 
 .paper-heading .test-topic {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px;

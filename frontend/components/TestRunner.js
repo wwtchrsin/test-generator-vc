@@ -129,7 +129,11 @@ export default function TestRunner({ test }) {
               <div className="test-title">{test.title}</div>
             </div>
             {test.topic && (
-              <div className="test-topic">{test.topic}</div>
+              <div className="test-topic">
+                {test.topic.split("\n").map((line, index) => {
+                  return <div key={`topic-line-${index}`}>{line}</div>
+                })}
+              </div>
             )}
           </header>
           {test.tasks.map((task, taskIndex) => {
@@ -140,7 +144,11 @@ export default function TestRunner({ test }) {
               <section className="task" key={taskIndex}>
                 <div className="task-number">{taskIndex + 1}.</div>
                 <div className="task-body">
-                  <div className="task-text">{task.task}</div>
+                  <div className="task-text">
+                    {task.task.split("\n").map((line, index) => {
+                      return <div key={`task-line-${index}`}>{line}</div>
+                    })}
+                  </div>
                   <ul className="options">
                     {task.options.map((option, optionIndex) => {
                       const isChosen = chosen === optionIndex;
