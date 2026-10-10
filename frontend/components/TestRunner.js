@@ -10,7 +10,7 @@ import {
   setSelectedAnswers,
   resetAnswers,
 } from "../lib/storage";
-import { HandCircle, HandTick, HandCross } from "./HandMarks";
+import { HandCircle, HandTick, HandCross, HandDoubleCircle } from "./HandMarks";
 
 const LETTERS = ["A", "B", "C", "D", "E", "F"];
 
@@ -43,7 +43,7 @@ export default function TestRunner({ test }) {
   function choose(taskIndex, optionIndex) {
     if (checked[String(taskIndex)]) return;
     const next = { ...selected, [String(taskIndex)]: optionIndex };
-    if (selected[String(taskIndex)]) {
+    if (selected[String(taskIndex)] === optionIndex) {
       delete next[String(taskIndex)];
     }
     setSelected(next);
@@ -99,15 +99,19 @@ export default function TestRunner({ test }) {
               <span className="stats-entry">
                 Выполнено: <span className="value">{progress.completed} / {progress.total}</span>
               </span>
-              <span className="stats-entry stats-entry-correct">
-                Верных: <span className="value">{progress.percent}%</span>
-              </span>
+              {progress.completed < progress.total && (
+                <span className="stats-entry stats-entry-correct">
+                  Верных: <span className="value">{progress.percent}%</span>
+                </span>
+              )}
               <span className="stats-entry-compact">
                 <span className="value">{progress.completed} / {progress.total}</span>
               </span>
-              <span className="stats-entry-compact stats-entry-correct">
-                <span className="value">{progress.percent}%</span>
-              </span>
+              {progress.completed < progress.total && (
+                <span className="stats-entry-compact stats-entry-correct">
+                  <span className="value">{progress.percent}%</span>
+                </span>
+              )}
             </>
           }
         </div>
@@ -136,6 +140,14 @@ export default function TestRunner({ test }) {
                     return <div key={`topic-line-${index}`}>{line}</div>
                   })}
                 </div>
+              </div>
+            )}
+            {progress.completed === progress.total && (
+              <div className="test-mark-wrap">
+                <div className="test-mark">
+                  {progress.percent}
+                </div>
+                <HandDoubleCircle />
               </div>
             )}
           </header>

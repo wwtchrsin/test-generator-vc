@@ -13,6 +13,26 @@ export function HandCircle({ color = "#3a3a3a" }) {
   );
 }
 
+export function HandDoubleCircle() {
+  return (
+    <svg className="hand-mark" viewBox="0 30 200 190" aria-hidden="true">
+      <path d="M100,35 
+          C155,35 195,80 195,130 
+          C195,180 155,215 100,215 
+          C45,215 5,180 5,130 
+          C5,80 45,35 100,35 Z" 
+        fill="none" stroke="#c1121f" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+
+      <path d="M104,39 
+          C151,39 187,76 187,126 
+          C187,176 151,207 104,207 
+          C57,207 13,176 13,126 
+          C13,76 57,39 104,39 Z" 
+        fill="none" stroke="#c1121f" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  )
+}
+
 export function HandTick() {
   return (
     <svg className="hand-mark" viewBox="0 0 36 36" aria-hidden="true">
