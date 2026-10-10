@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { LEVELS } from "../../shared";
 import { loadResults, saveResults } from "../lib/storage";
+import { txtRes, lang } from "../lib/text-resources";
 
 export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, onImported }) {
   const fileRef = useRef(null);
@@ -35,10 +36,10 @@ export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, 
         }
         const current = loadResults();
         saveResults({ ...current, ...parsed });
-        setMessage("Результаты импортированы");
+        setMessage(txtRes.ResultsImported[lang]);
         onImported?.();
       } catch {
-        setMessage("Не удалось прочитать файл результатов");
+        setMessage(txtRes.ResultsNotImported[lang]);
       }
     };
     reader.readAsText(file);
@@ -47,9 +48,9 @@ export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, 
   return (
     <div className="toolbar">
       <div className="field">
-        <label htmlFor="chapter">Глава</label>
+        <label htmlFor="chapter">{ txtRes.Chapter[lang] }</label>
         <select id="chapter" value={chapter} onChange={(e) => onChapter(e.target.value)}>
-          <option value="">Все главы</option>
+          <option value="">{ txtRes.AllChapters[lang] }</option>
           {chapters.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -58,9 +59,9 @@ export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, 
         </select>
       </div>
       <div className="field">
-        <label htmlFor="level">Уровень</label>
+        <label htmlFor="level">{ txtRes.Level[lang] }</label>
         <select id="level" value={level} onChange={(e) => onLevel(e.target.value)}>
-          <option value="">Все уровни</option>
+          <option value="">{ txtRes.AllLevels[lang] }</option>
           {LEVELS.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -69,10 +70,10 @@ export default function FiltersBar({ tests, chapter, level, onChapter, onLevel, 
         </select>
       </div>
       <button type="button" className="ghost-btn" onClick={exportResults}>
-        Экспорт результатов
+        { txtRes.ExportResults[lang] }
       </button>
       <button type="button" className="ghost-btn" onClick={() => fileRef.current?.click()}>
-        Импорт результатов
+        { txtRes.ImportResults[lang] }
       </button>
       <input
         ref={fileRef}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { fetchTest } from "../../../lib/api";
+import { txtRes, lang } from "../../../lib/text-resources";
 import TestRunner from "../../../components/TestRunner";
 
 export const dynamic = "force-dynamic";
@@ -11,8 +12,8 @@ export default async function TestPage({ params }) {
   if (!test) {
     return (
       <div className="page">
-        <p className="empty">Тест не найден.</p>
-        <Link href="/">На главную</Link>
+        <p className="empty">{ txtRes.TestNotFound[lang] }</p>
+        <Link href="/">{ txtRes.HomePage[lang] }</Link>
       </div>
     );
   }

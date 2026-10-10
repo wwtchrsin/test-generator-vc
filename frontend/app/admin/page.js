@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation"
 import { fetchTests } from "../../lib/api";
+import { txtRes, lang } from "../../lib/text-resources";
 import AdminPanel from "../../components/AdminPanel";
 import SiteHeader from "../../components/SiteHeader";
 
@@ -21,7 +22,7 @@ export default async function AdminPage() {
 
   return (
     <div className="page">
-      <SiteHeader extra={<Link href="/">К тестам</Link>} />
+      <SiteHeader extra={<Link href="/">{ txtRes.HomePage[lang] }</Link>} />
       {error ? <p className="error">{error}</p> : null}
       <AdminPanel initialTests={tests} />
     </div>

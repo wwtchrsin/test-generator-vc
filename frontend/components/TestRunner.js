@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { txtRes, lang } from "../lib/text-resources";
 import {
   getTestProgress,
   loadResults,
@@ -17,7 +18,6 @@ const LETTERS = ["A", "B", "C", "D", "E", "F"];
 export default function TestRunner({ test }) {
   const [selected, setSelected] = useState({});
   const [checked, setChecked] = useState({});
-  const [hint, setHint] = useState("");
   const [initialized, setInitialized] = useState(false);
   const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
@@ -48,7 +48,6 @@ export default function TestRunner({ test }) {
     }
     setSelected(next);
     persistSelected(next);
-    setHint("");
     setResetDialogOpen(false);
   }
 
@@ -65,15 +64,12 @@ export default function TestRunner({ test }) {
       };
     });
     setResetDialogOpen(false);
-    if (Object.keys(updates).length === 0) {
-      setHint("Выберите хотя бы один ответ, чтобы проверить.");
-      return;
+    if (Object.keys(updates).length > 0) {
+      const nextChecked = { ...checked, ...updates };
+      setChecked(nextChecked);
+      const all = loadResults();
+      saveResults(setCheckedAnswers(all, test.id, updates));
     }
-    const nextChecked = { ...checked, ...updates };
-    setChecked(nextChecked);
-    const all = loadResults();
-    saveResults(setCheckedAnswers(all, test.id, updates));
-    setHint("");
   }
 
   function resetResult () {
@@ -81,7 +77,6 @@ export default function TestRunner({ test }) {
     setSelected({});
     setChecked({});
     saveResults(resetAnswers(all, test.id));
-    setHint("");
     setResetDialogOpen(false);
   }
 
@@ -91,17 +86,19 @@ export default function TestRunner({ test }) {
         <div className="sticky-bar-main">
           <Link href="/">
             <button type="button" className="solid-btn">
-              К списку
+              { txtRes.TestList[lang] }
             </button>
           </Link>
           {initialized && 
             <>
               <span className="stats-entry">
-                Выполнено: <span className="value">{progress.completed} / {progress.total}</span>
+                { txtRes.Completed[lang] }: 
+                <span className="value">{progress.completed} / {progress.total}</span>
               </span>
               {progress.completed < progress.total && (
                 <span className="stats-entry stats-entry-correct">
-                  Верных: <span className="value">{progress.percent}%</span>
+                  { txtRes.Correct[lang] }: 
+                  <span className="value">{progress.percent}%</span>
                 </span>
               )}
               <span className="stats-entry-compact">
@@ -116,9 +113,8 @@ export default function TestRunner({ test }) {
           }
         </div>
         <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-          {hint ? <span className="error">{hint}</span> : null}
           <button type="button" className="solid-btn" onClick={checkAnswers}>
-            Проверить
+            { txtRes.Check[lang] }
           </button>
         </div>
       </div>
@@ -200,20 +196,20 @@ export default function TestRunner({ test }) {
           <div className="test-footer">
             {!resetDialogOpen && (
               <button type="button" className="solid-btn reset-button" onClick={() => setResetDialogOpen(true)}>
-                Сбросить
+                { txtRes.Reset[lang] }
               </button>
             )}
             {resetDialogOpen && (
               <>
                 <div className="dialog-text">
-                  Вы уверены что хотите сбросить ответы и начать тест заново?
+                  { txtRes.ConfirmReset[lang] }
                 </div>
                 <div className="dialog-buttons">
                   <button type="button" className="solid-btn" onClick={() => resetResult()}>
-                    Да
+                    { txtRes.Yes[lang] }
                   </button>
                   <button type="button" className="solid-btn" onClick={() => setResetDialogOpen(false)}>
-                    Отмена
+                    { txtRes.Cancel[lang] }
                   </button>
                 </div>
               </>

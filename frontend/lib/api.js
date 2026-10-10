@@ -1,9 +1,11 @@
+import { txtRes, lang } from "./text-resources";
+
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
 export async function fetchTests() {
   const res = await fetch(`${API_URL}/api/tests`, { cache: "no-store" });
   if (!res.ok) {
-    throw new Error("Не удалось загрузить список тестов");
+    throw new Error(txtRes.TestListLoadFailed[lang]);
   }
   return res.json();
 }
@@ -12,7 +14,7 @@ export async function fetchTest(id) {
   const res = await fetch(`${API_URL}/api/tests/${id}`, { cache: "no-store" });
   if (res.status === 404) return null;
   if (!res.ok) {
-    throw new Error("Не удалось загрузить тест");
+    throw new Error(txtRes.TestLoadFailed[lang]);
   }
   return res.json();
 }
@@ -28,7 +30,7 @@ export async function createTest(adminToken, payload) {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error(data.error || "Не удалось создать тест");
+    throw new Error(data.error || txtRes.CreateTestFailed[lang]);
   }
   return data;
 }
@@ -42,6 +44,6 @@ export async function deleteTest(adminToken, id) {
   });
   if (!res.ok && res.status !== 204) {
     const data = await res.json().catch(() => ({}));
-    throw new Error(data.error || "Не удалось удалить тест");
+    throw new Error(data.error || txtRes.DeleteTestFailed[lang]);
   }
 }

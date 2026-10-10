@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import FiltersBar from "./FiltersBar";
 import TestCard from "./TestCard";
 import { loadResults, emptyResults } from "../lib/storage";
+import { txtRes, lang } from "../lib/text-resources";
 
 export default function TestList({ tests }) {
   const [initialized, setInitialized] = useState(false);
@@ -33,7 +34,7 @@ export default function TestList({ tests }) {
         onImported={() => setResults(loadResults())}
       />
       {filtered.length === 0 ? (
-        <p className="empty">Тесты не найдены.</p>
+        <p className="empty">{ txtRes.TestsNotFound[lang] }.</p>
       ) : (
         <ul className="test-list">
           {filtered.map((test) => (

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTestProgress } from "../lib/storage";
 import { HandDoubleCircle } from "./HandMarks";
+import { txtResComp, lang } from "../lib/text-resources";
 
 export default function TestCard({ test, results, initialized }) {
   const progress = getTestProgress(results, test.id, test.taskCount);
@@ -22,9 +23,9 @@ export default function TestCard({ test, results, initialized }) {
           )}
         </div>
         <div className={initialized ? "progress-line" : "progress-line-inactive"}>
-          Выполнено {progress.completed} из {progress.total}
+          { txtResComp.CompletedTasks(progress.completed,progress.total)[lang] }
           {progress.completed < progress.total && (
-            ` · ${progress.percent}% верных ответов`
+            " · " + txtResComp.AccuracyRate(progress.percent)[lang]
           )}
         </div>
       </Link>

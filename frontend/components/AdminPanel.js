@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { LEVELS } from "../../shared";
 import { createTest, deleteTest } from "../lib/api";
+import { txtRes, lang } from "../lib/text-resources";
 
 const EXAMPLE = `[
   {
@@ -31,7 +32,7 @@ export default function AdminPanel({ initialTests }) {
     try {
       tasks = JSON.parse(tasksJson);
     } catch {
-      setError("JSON с заданиями некорректен");
+      setError(txtRes.InvalidTasksJSON[lang]);
       return;
     }
     try {
@@ -47,7 +48,7 @@ export default function AdminPanel({ initialTests }) {
       setTitle("");
       setTopic("");
       setTasksJson(EXAMPLE);
-      setOk("Тест добавлен");
+      setOk(txtRes.TestAdded[lang]);
     } catch (err) {
       setError(err.message);
     }
@@ -59,7 +60,7 @@ export default function AdminPanel({ initialTests }) {
     try {
       await deleteTest(adminToken, id);
       setTests((list) => list.filter((item) => item.id !== id));
-      setOk("Тест удалён");
+      setOk(txtRes.TestDeleted[lang]);
     } catch (err) {
       setError(err.message);
     }
@@ -69,27 +70,27 @@ export default function AdminPanel({ initialTests }) {
     <div className="admin-layout">
       <div className="admin-header">
         <div className="field">
-          <label htmlFor="admin-token">Токен Администратора:</label>
+          <label htmlFor="admin-token">{ txtRes.AdminToken[lang] }:</label>
           <input id="admin-token" value={adminToken} onChange={(e) => setAdminToken(e.target.value)} />
         </div>
         <p className="result">
-          {error ? <span className="error">Результат: {error}</span> : null}
-          {ok && !error ? <span className="ok">Результат: {ok}</span> : null}
-          {!ok && !error ? <span>Результат:</span> : null}
+          {error ? <span className="error">{ txtRes.Result[lang] }: {error}</span> : null}
+          {ok && !error ? <span className="ok">{ txtRes.Result[lang] }: {ok}</span> : null}
+          {!ok && !error ? <span>{ txtRes.Result[lang] }:</span> : null}
         </p>
       </div>
       <form className="admin-form" onSubmit={onSubmit}>
-        <h2>Добавить тест</h2>
+        <h2>{ txtRes.AddTest[lang] }</h2>
         <div className="field">
-          <label htmlFor="chapter">Глава</label>
+          <label htmlFor="chapter">{ txtRes.Chapter[lang] }</label>
           <input id="chapter" value={chapter} onChange={(e) => setChapter(e.target.value)} required />
         </div>
         <div className="field">
-          <label htmlFor="title">Название</label>
+          <label htmlFor="title">{ txtRes.Name[lang] }</label>
           <input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required />
         </div>
         <div className="field">
-          <label htmlFor="level">Уровень</label>
+          <label htmlFor="level">{ txtRes.Level[lang] }</label>
           <select id="level" value={level} onChange={(e) => setLevel(e.target.value)}>
             {LEVELS.map((item) => (
               <option key={item} value={item}>
@@ -99,21 +100,21 @@ export default function AdminPanel({ initialTests }) {
           </select>
         </div>
         <div className="field test-topic">
-          <label htmlFor="topic">Тема (необязательно)</label>
+          <label htmlFor="topic">{ txtRes.Topic[lang] } ({ txtRes.optional[lang] })</label>
           <textarea id="topic" value={topic} onChange={(e) => setTopic(e.target.value)} />
         </div>
         <div className="field tasks-json">
-          <label htmlFor="tasks">Задания (JSON)</label>
+          <label htmlFor="tasks">{ txtRes.Tasks[lang] } (JSON)</label>
           <textarea id="tasks" value={tasksJson} onChange={(e) => setTasksJson(e.target.value)} />
         </div>
         <button type="submit" className="solid-btn">
-          Сохранить тест
+          { txtRes.SaveTest[lang] }
         </button>
       </form>
       <section>
-        <h2>Существующие тесты</h2>
+        <h2>{ txtRes.ExistingTests[lang] }</h2>
         {tests.length === 0 ? (
-          <p className="empty">Пока нет тестов.</p>
+          <p className="empty">{ txtRes.NoTestsYet[lang] }.</p>
         ) : (
           tests.map((test) => (
             <div className="admin-item" key={test.id}>
@@ -128,7 +129,7 @@ export default function AdminPanel({ initialTests }) {
                 </div>
               </div>
               <button type="button" className="ghost-btn" onClick={() => onDelete(test.id)}>
-                Удалить
+                { txtRes.Delete[lang] }
               </button>
             </div>
           ))
