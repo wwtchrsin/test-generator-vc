@@ -17,7 +17,7 @@ export function validateTasks(tasks) {
       return `task ${i}: options must be an array`;
     }
     const n = item.options.length;
-    if (n !== 4 && n !== 6) {
+    if (n < 4 && n > 6) {
       return `task ${i}: options must contain 4 or 6 items`;
     }
     if (item.options.some((opt) => typeof opt !== "string" || !opt.trim())) {
