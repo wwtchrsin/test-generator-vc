@@ -40,4 +40,18 @@ npm run start:server
 npm run start:client
 ```
 
-
+## Configuration
+You can define a list of difficulty levels suitable for your application by modifying `LEVELS` 
+array in the `shared.js` file located in the project's root. To add or delete a test go to
+the `/admin` page in development mode. You can set there the test's name, chapter, difficulty 
+levels and a list of tasks. The list of tasks is provided in JSON format and contains an array of objects, 
+each representing an individual test task. These objects have the following interface:
+```typescript
+{
+  task: string, // plain string representing the task
+  options: string[], // option A) - first element, option B) - second, and so on
+  correct: number, // index of the correct answer
+}
+```
+You can explicitly split the task's text into multiple lines by inserting the `\n` character 
+between the intended lines (It does not matter which operating system the app is running on).
