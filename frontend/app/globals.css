@@ -423,7 +423,7 @@ textarea {
 
 .options {
   list-style: none;
-  margin: 0;
+  margin: 6px 0 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
